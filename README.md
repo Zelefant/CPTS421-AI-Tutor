@@ -6,13 +6,11 @@ If any of the sections in this template grows to more than one screen, consider 
 
 Provide a README file with the following information:
 
-# Project Name
+## System for AI Tutoring
 
 ## Project summary
 
-### One-sentence description of the project
-
-TODO: A 20-second elevator pitch of your project - its core idea summarized in one sentence.
+A system for school districts to create individual AI tutors for their students, following their own curriculums and learning paths with teacher guidance.
 
 ### Additional information about the project
 
@@ -22,11 +20,13 @@ TODO: Write a compelling/creative/informative project description / summary
 
 ### Prerequisites
 
-TODO: List what a user needs to have installed before running the installation instructions below (e.g., git, which versions of Ruby/Rails)
+- Python 3.13 or newer
+- Pip packages: google-generativeai, python-dotenv, django
+- Gemini API key (Insert into .env file with the format: GEMINI_API_KEY="your api key")
 
 ### Add-ons
 
-TODO: List which add-ons are included in the project, and the purpose each add-on serves in your app.
+- Google Gemini API - Serves as the large-language model for the prototype system.
 
 ### Installation Steps
 
@@ -64,5 +64,3 @@ TODO: Provide links to additional documentation that may exist in the repo, e.g.
 
 ## License
 
-If you haven't already, add a file called `LICENSE.txt` with the text of the appropriate license.
-We recommend using the MIT license: <https://choosealicense.com/licenses/mit/>
