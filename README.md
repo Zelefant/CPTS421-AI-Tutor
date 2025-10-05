@@ -64,3 +64,4 @@ TODO: Provide links to additional documentation that may exist in the repo, e.g.
 
 ## License
 
+[See License](LICENSE.txt)
