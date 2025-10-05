@@ -65,15 +65,15 @@ Please review the following code files, which were actively developed during thi
 
 Here's what went well:
 
-- Item 1
-- Item 2
-- Item x
+- Research into prompt engineering
+- Usage of JSON and CSV for quiz system
+- Connection to LLM via API
+- Creation of web app UI
 
 Here's what we'd like to improve:
 
-- Item 1
-- Item 2
-- Item x
+- Roles and account system
+- Connection to a local LLM rather than to Gemini's cloud-based LLM
 
 Here are changes we plan to implement in the next sprint:
 
