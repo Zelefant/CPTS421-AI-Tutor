@@ -22,20 +22,20 @@ This AI tutoring system enables school districts to offer personalized learning 
 
 ### Installation Steps
 
-- 1. Clone the repository:
-- -git clone https://github.com/Zelefant/CPTS421-AI-Tutor.git
-- -cd CPTS421-AI-Tutor
-- 2. Create and activate a virtual environment:
-- - python -m venv .venv # Windows
-- - .venv\Scripts\activate # macOS/Linux
-- - source .venv/bin/activate
-- 3. Upgrade pip and install dependencies:
-- - pip install --upgrade pip
-- - pip install google-generativeai python-dotenv django
-- 4. Create a .env file in the project root and add your Gemini API key:
-- - GEMINI_API_KEY="your-api-key-here"
-- 5. Run the application: python main.py
-- 6. (Optional for Rails users) If using gems, run: bundle install
+1. Clone the repository:
+  - git clone https://github.com/Zelefant/CPTS421-AI-Tutor.git
+  - cd CPTS421-AI-Tutor
+2. Create and activate a virtual environment:
+  - python -m venv .venv # Windows
+  - .venv\Scripts\activate # macOS/Linux
+  - source .venv/bin/activate
+3. Upgrade pip and install dependencies:
+  - pip install --upgrade pip
+  - pip install google-generativeai python-dotenv django
+4. Create a .env file in the project root and add your Gemini API key:
+  - GEMINI_API_KEY="your-api-key-here"
+5. Run the application: python main.py
+6. (Optional for Rails users) If using gems, run: bundle install
 
 ## Functionality
 
@@ -67,10 +67,11 @@ This AI tutoring system enables school districts to offer personalized learning 
 
 ## Additional Documentation
 
-Sprint 1 Report - https://github.com/Zelefant/CPTS421-AI-Tutor/blob/console_prototype/SPRINT-1-REPORT.md – Overview of work completed and unfinished work.
-GitHub Issues - https://github.com/Zelefant/CPTS421-AI-Tutor/issues - Current issues, user stories, and progress tracking.
+- [Sprint 1 Report](https://github.com/Zelefant/CPTS421-AI-Tutor/blob/console_prototype/SPRINT-1-REPORT.md) – Overview of work completed and unfinished work.
+- [GitHub Issues](https://github.com/Zelefant/CPTS421-AI-Tutor/issues) - Current issues, user stories, and progress tracking.
 
 ## License
 
 [See License](LICENSE.txt)
+
 
