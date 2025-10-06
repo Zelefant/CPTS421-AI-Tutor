@@ -34,15 +34,16 @@ This AI tutoring system enables school districts to offer personalized learning 
   - pip install google-generativeai python-dotenv django
 4. Create a .env file in the project root and add your Gemini API key:
   - GEMINI_API_KEY="your-api-key-here"
-5. Run the application: python main.py
-6. (Optional for Rails users) If using gems, run: bundle install
+5. cd into the "llmsite" folder
+6. Run the command: python manage.py runserver
+7. Go to http://127.0.0.1:8000 or whatever the IP address and port the command gives you.
 
 ## Functionality
 
-1. Start the application by running python main.py.
+1. Start the application by running the above commands.
 2. The AI tutor will introduce itself and display the initial instructions.
 3. Enter a message describing the topic or problem you want help with.
-4. The tutor will respond with one step at a time. After completing the step, type ::START_NEXT_STEP:: to continue or ask a question to clarify.
+4. The tutor will respond with one step at a time. After completing the step, ask it to continue or ask for clarification.
 5. Request quizzes or practice exams by asking the tutor; it will provide them in JSON format.
 6. Submit quiz answers in CSV format; the tutor will return a graded JSON answer key.
 7. The system maintains safeguards to prevent inappropriate content and adheres to the structured step-by-step approach.
@@ -73,5 +74,6 @@ This AI tutoring system enables school districts to offer personalized learning 
 ## License
 
 [See License](LICENSE.txt)
+
 
 
