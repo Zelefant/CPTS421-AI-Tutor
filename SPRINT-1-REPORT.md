@@ -59,8 +59,8 @@ Here are links to issues we worked on but did not complete in this sprint:
 
 Please review the following code files, which were actively developed during this sprint, for quality:
 
-- [main.py]([[https://github.com/your_repo/file_extension](https://github.com/Zelefant/CPTS421-AI-Tutor/blob/console_prototype/main.py)](https://github.com/Zelefant/CPTS421-AI-Tutor/blob/console_prototype/main.py))
-- [README.md]([[https://github.com/your_repo/file_extension](https://github.com/Zelefant/CPTS421-AI-Tutor/blob/console_prototype/README.md)](https://github.com/Zelefant/CPTS421-AI-Tutor/blob/console_prototype/README.md))
+- [main.py](https://github.com/Zelefant/CPTS421-AI-Tutor/blob/console_prototype/main.py)
+- [README.md](https://github.com/Zelefant/CPTS421-AI-Tutor/blob/console_prototype/README.md)
 - [SPRINT-1-REPORT.md](https://github.com/Zelefant/CPTS421-AI-Tutor/blob/console_prototype/SPRINT-1-REPORT.md)
 
 ## Retrospective Summary
