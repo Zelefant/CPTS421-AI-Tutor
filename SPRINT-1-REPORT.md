@@ -25,13 +25,13 @@ We began our research into using LLMs for tutoring purposes. We did experimentat
 
 Here are links to the issues that we completed in this sprint:
 
-#9: Quiz System with JSON – Fully implemented JSON-based quiz generation and grading.
+- #9: Quiz System with JSON – Fully implemented JSON-based quiz generation and grading.
       https://github.com/Zelefant/CPTS421-AI-Tutor/issues/9
-#2: Web UI – Base HTML and server integration started and functional in prototype.
+- #2: Web UI – Base HTML and server integration started and functional in prototype.
       https://github.com/Zelefant/CPTS421-AI-Tutor/issues/2
-#7: Privacy Features and Documentation – Prompt safeguards added to prevent inappropriate content and ensure user data protection.
+- #7: Privacy Features and Documentation – Prompt safeguards added to prevent inappropriate content and ensure user data protection.
       https://github.com/Zelefant/CPTS421-AI-Tutor/issues/7
-#15: Documentation for Local Server Set-up – Installation and .env setup instructions written and tested.
+- #15: Documentation for Local Server Set-up – Installation and .env setup instructions written and tested.
       https://github.com/Zelefant/CPTS421-AI-Tutor/issues/15
 
 ## Incomplete Issues/User Stories
