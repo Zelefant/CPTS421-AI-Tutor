@@ -2,9 +2,21 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from languagemodel import InitModel
 
+loaded_model, loaded_tokenizer = None
+
+def GetModelAndTokenizer():
+    if loaded_model != None and loaded_tokenizer != None:
+        return (loaded_model, loaded_tokenizer)
+    else:
+        raise ValueError("Model is not initialized")
 
 def main():
+    """Set up LLM."""
+    model, tokenizer = InitModel()
+    loaded_model = model
+    loaded_tokenizer = tokenizer
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'llmsite.settings')
     try:

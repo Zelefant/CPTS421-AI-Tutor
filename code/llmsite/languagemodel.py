@@ -55,8 +55,6 @@ def InitModel():
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype="auto", device_map="auto")
 
-
-
     return (model, tokenizer)
 
 
@@ -68,11 +66,11 @@ def InitializationPrompt(studentName, studentSchool, studentGrade, studentClasse
     
     return INITIALIZATION_PROMPT
 
-def StartChat(model, tokenizer):
+def StartChat(model, tokenizer, studentName, studentSchool, studentGrade, studentClasses):
     messages = [
         {
             "role": "system",
-            "content": InitializationPrompt()
+            "content": InitializationPrompt(studentName, studentSchool, studentGrade, studentClasses)
         }
     ]
 

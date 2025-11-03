@@ -3,10 +3,13 @@ from django.shortcuts import render
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 import json
-from code.llmsite.languagemodel import InitModel, InitChat, SendMessage
+from languagemodel import StartChat, SendMessage
+from manage import GetModelAndTokenizer
 
 # in-memory registry for prototype use
 CHAT_REGISTRY = {}
+
+model, tokenizer = GetModelAndTokenizer()
 
 def _session_id(request):
     if not request.session.session_key:
@@ -29,16 +32,17 @@ def api_init(request):
     grade  = "Sophomore" #(data.get("studentGrade") or "").strip()
     classes = "Algebra 2, History, AP Language/Composition" #(data.get("studentClasses") or "").strip()
 
-    # start a fresh chat
-    chat = StartAIChat()
-    # call Initialization
-    init_text = Initialization(chat, name, school, grade, classes) or ""
+    # Initialize the chat.
+    # TODO: Retreive chats and RAG from database.
+    chat = StartChat(model, tokenizer, name, school, grade, classes)
 
     # store the live chat object for this user session
     sid = _session_id(request)
     CHAT_REGISTRY[sid] = chat
 
-    return JsonResponse({"ok": True, "model_text": init_text})
+    model_reply = chat.split("<|assistant|>").strip()
+
+    return JsonResponse({"ok": True, "model_text": model_reply})
 
 @csrf_exempt
 @require_http_methods(["POST"])
@@ -58,7 +62,7 @@ def api_chat(request):
         return HttpResponseBadRequest("No active chat, initialize first")
 
     # call SendMessage on the stored chat
-    reply = SendMessage(chat, msg) or ""
+    reply = SendMessage(model, tokenizer, chat, msg)
     return JsonResponse({"ok": True, "model_text": reply})
 
 @csrf_exempt
