@@ -5,3 +5,9 @@ google-generativeai>=0.13.0,<1
 # Optional (dev/test helpers)
 # pytest>=7.0
 # httpx>=0.24
+
+# Retrieval-Augmented Generation (RAG) dependencies
+faiss-cpu
+sentence-transformers
+PyPDF2
+numpy

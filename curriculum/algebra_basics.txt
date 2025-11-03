@@ -1,0 +1,25 @@
+# Algebra Basics - Curriculum Notes
+
+Topic: Introduction to Linear Equations
+
+Key Concepts:
+1. A linear equation represents a straight line when graphed on a coordinate plane.
+2. The standard form of a linear equation is Ax + By = C.
+3. The slope-intercept form is y = mx + b, where:
+   - m = slope of the line
+   - b = y-intercept (where the line crosses the y-axis)
+4. To solve for y, isolate the variable using inverse operations.
+
+Example Problem:
+Solve for y: 3x + 2y = 10
+
+Step 1: Subtract 3x from both sides → 2y = -3x + 10
+Step 2: Divide both sides by 2 → y = -1.5x + 5
+
+Practice Questions:
+1. Write 2x + 5y = 10 in slope-intercept form.
+2. What is the slope of y = 4x - 2?
+3. Determine the y-intercept of y = -3x + 7.
+
+Learning Goal:
+Students should understand how to identify slope and intercept, and how to graph a linear equation.

@@ -13,7 +13,7 @@ This AI tutoring system enables school districts to offer personalized learning 
 ### Prerequisites
 
 - Python 3.13 or newer
-- Pip packages: google-generativeai, python-dotenv, django
+- Pip packages: google-generativeai, python-dotenv, django, (optional for RAG integration: faiss-cpu, sentence-transformers)
 - Gemini API key (Insert into .env file with the format: GEMINI_API_KEY="your api key")
 
 ### Add-ons
@@ -32,6 +32,7 @@ This AI tutoring system enables school districts to offer personalized learning 
 3. Upgrade pip and install dependencies:
   - pip install --upgrade pip
   - pip install google-generativeai python-dotenv django
+  - pip install faiss-cpu sentence-transformers # (optional for RAG integration)
 4. Create a .env file in the project root and add your Gemini API key:
   - GEMINI_API_KEY="your-api-key-here"
 5. cd into the "llmsite" folder
