@@ -62,8 +62,10 @@ def api_chat(request):
         return HttpResponseBadRequest("No active chat, initialize first")
 
     # call SendMessage on the stored chat
-    reply = SendMessage(model, tokenizer, chat, msg)
-    return JsonResponse({"ok": True, "model_text": reply})
+    CHAT_REGISTRY[sid] = SendMessage(model, tokenizer, chat, msg)
+    model_reply = CHAT_REGISTRY.get(sid).split("<|assistant|>").strip()
+    
+    return JsonResponse({"ok": True, "model_text": model_reply})
 
 @csrf_exempt
 @require_http_methods(["POST"])

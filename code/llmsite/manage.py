@@ -4,7 +4,8 @@ import os
 import sys
 from languagemodel import InitModel
 
-loaded_model, loaded_tokenizer = None
+loaded_model = None
+loaded_tokenizer = None
 
 def GetModelAndTokenizer():
     if loaded_model != None and loaded_tokenizer != None:
@@ -14,6 +15,7 @@ def GetModelAndTokenizer():
 
 def main():
     """Set up LLM."""
+    print("Setting up LLM")
     model, tokenizer = InitModel()
     loaded_model = model
     loaded_tokenizer = tokenizer
