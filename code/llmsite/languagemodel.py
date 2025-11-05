@@ -46,7 +46,8 @@ def InitModel():
     if model_id:
         pass
     else:
-        raise ValueError("LANGUAGE_MODEL_ID is missing from .env file.")
+        # Use default - LLaMA 3.2 1B Instruct
+        model_id = "meta-llama/Llama-3.2-1B-Instruct"
 
     cfg = AutoConfig.from_pretrained(model_id)
     print("Loading model ", model_id, " with context window ", cfg.max_position_embeddings)
