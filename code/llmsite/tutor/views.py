@@ -4,7 +4,7 @@ from django.views.decorators.http import require_http_methods
 from django.views.decorators.csrf import csrf_exempt
 import json
 from languagemodel import StartChat, SendMessage
-from manage import GetModelAndTokenizer
+from tutor.globals import GetModelAndTokenizer
 
 # in-memory registry for prototype use
 CHAT_REGISTRY = {}
@@ -34,13 +34,13 @@ def api_init(request):
 
     # Initialize the chat.
     # TODO: Retreive chats and RAG from database.
-    chat = StartChat(model, tokenizer, name, school, grade, classes)
+    chat, messages = StartChat(model, tokenizer, name, school, grade, classes)
 
     # store the live chat object for this user session
     sid = _session_id(request)
-    CHAT_REGISTRY[sid] = chat
+    CHAT_REGISTRY[sid] = messages
 
-    model_reply = chat.split("<|assistant|>").strip()
+    model_reply = chat.split("<|assistant|>")[-1].strip()
 
     return JsonResponse({"ok": True, "model_text": model_reply})
 
@@ -62,8 +62,10 @@ def api_chat(request):
         return HttpResponseBadRequest("No active chat, initialize first")
 
     # call SendMessage on the stored chat
-    CHAT_REGISTRY[sid] = SendMessage(model, tokenizer, chat, msg)
-    model_reply = CHAT_REGISTRY.get(sid).split("<|assistant|>").strip()
+    reply, messages = SendMessage(model, tokenizer, chat, msg)
+
+    CHAT_REGISTRY[sid] = messages
+    model_reply = reply.split("<|assistant|>")[-1].strip()
     
     return JsonResponse({"ok": True, "model_text": model_reply})
 

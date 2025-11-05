@@ -14,6 +14,7 @@ def GetModelAndTokenizer():
         raise ValueError("Model is not initialized")
 
 def main():
+    global loaded_model, loaded_tokenizer
     """Set up LLM."""
     print("Setting up LLM")
     model, tokenizer = InitModel()
