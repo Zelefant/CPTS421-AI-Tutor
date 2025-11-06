@@ -105,7 +105,7 @@ def StartChat(model, tokenizer, studentName, studentSchool, studentGrade, studen
     print(tokenizer.decode(outputs[0]))
 
     reply = tokenizer.decode(outputs[0], skip_special_tokens=False)
-    messages.append({"role": "assistant", "content": reply.split("<|assistant|>")[-1].strip()})
+    messages.append({"role": "assistant", "content": reply.split("<|assistant|>")[-1].splite("<|")[0].strip()})
 
     return reply, messages
 
