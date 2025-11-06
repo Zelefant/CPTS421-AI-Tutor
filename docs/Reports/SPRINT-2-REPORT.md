@@ -54,6 +54,9 @@ Please review the following code files, which were actively developed during thi
 - [views.py](https://github.com/Zelefant/CPTS421-AI-Tutor/blob/local-llm-branch/code/llmsite/tutor/views.py)
 - [globals.py](https://github.com/Zelefant/CPTS421-AI-Tutor/blob/local-llm-branch/code/llmsite/tutor/globals.py)
 - [rag.py](https://github.com/Zelefant/CPTS421-AI-Tutor/blob/local-llm-branch/code/llmsite/rag.py)
+- [models.py](https://github.com/Zelefant/CPTS421-AI-Tutor/blob/web-app-prototype/llmsite/tutor/models.py)
+- [chat.html](https://github.com/Zelefant/CPTS421-AI-Tutor/blob/web-app-prototype/llmsite/tutor/templates/chat.html)
+- [chat_api.html](https://github.com/Zelefant/CPTS421-AI-Tutor/blob/web-app-prototype/llmsite/tutor/templates/chat_api.html)
 
 ## Retrospective Summary
 
