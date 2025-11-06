@@ -54,8 +54,8 @@ def InitModel():
 
 def LoadCurriculum():
     """Load text and PDF files into RAG if available."""
+    print(f"Loading curriculum from {CURRICULUM_PATH}...")
     if os.path.exists(CURRICULUM_PATH):
-        print(f"Loading curriculum from {CURRICULUM_PATH}...")
         load_txt_files(CURRICULUM_PATH)
         load_pdf_files(CURRICULUM_PATH)
         print("Curriculum loaded successfully.")
@@ -70,7 +70,7 @@ def InitializationPrompt(studentName, studentSchool, studentGrade, studentClasse
     School: {studentSchool}
     Grade: {studentGrade}
     Current Classes: {studentClasses}
-    You will now introduce yourself to your student and begin tutoring. Keep your introduction brief and let the student start the session."""
+    You will now introduce yourself to your student and begin tutoring. Keep your introduction to 1-2 sentences and let the student start the session."""
 
     return INITIALIZATION_PROMPT_2
 
