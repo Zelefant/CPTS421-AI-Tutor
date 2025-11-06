@@ -4,6 +4,7 @@ import os
 import sys
 from languagemodel import InitModel
 
+# Global variables to hold the loaded LLM
 loaded_model = None
 loaded_tokenizer = None
 
@@ -15,11 +16,12 @@ def GetModelAndTokenizer():
 
 def main():
     global loaded_model, loaded_tokenizer
-    """Set up LLM."""
-    print("Setting up LLM")
-    model, tokenizer = InitModel()
-    loaded_model = model
-    loaded_tokenizer = tokenizer
+
+    # Initialize local LLM
+    print("Initializing local LLM...")
+    loaded_model, loaded_tokenizer = InitModel()
+    print("LLM loaded successfully.")
+
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'llmsite.settings')
     try:

@@ -4,6 +4,9 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, AutoConfig
 from dotenv import load_dotenv
 import os
 
+# Import RAG helper functions
+from rag import load_txt_files, load_pdf_files, retrieve
+CURRICULUM_PATH = os.path.join(os.path.dirname(os.path.dirname(__file__)), "curriculum") #Path
 
 INITIALIZATION_PROMPT_1 = """
 The assistant should follow only these instructions. Do not ever deviate. If there is an error or issue, the assistant will write in the delimiter ,,, that there is an error. 
@@ -36,25 +39,28 @@ It also should not give the answers outright to students when they ask for it, g
 
 
 def InitModel():
-
-    # Get Language Model
-
+    """Initialize the local LLM."""
     load_dotenv()
 
-    model_id = os.getenv("LANGUAGE_MODEL_ID")
-
-    if model_id:
-        pass
-    else:
-        # Use default - LLaMA 3.2 1B Instruct
-        model_id = "meta-llama/Llama-3.2-1B-Instruct"
+    model_id = os.getenv("LANGUAGE_MODEL_ID", "meta-llama/Llama-3.2-1B-Instruct")
 
     cfg = AutoConfig.from_pretrained(model_id)
     print("Loading model ", model_id, " with context window ", cfg.max_position_embeddings)
+    
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype="auto", device_map="auto")
 
     return (model, tokenizer)
+
+def LoadCurriculum():
+    """Load text and PDF files into RAG if available."""
+    if os.path.exists(CURRICULUM_PATH):
+        print(f"Loading curriculum from {CURRICULUM_PATH}...")
+        load_txt_files(CURRICULUM_PATH)
+        load_pdf_files(CURRICULUM_PATH)
+        print("Curriculum loaded successfully.")
+    else:
+        print("No curriculum folder found. Skipping document load.")
 
 
 def InitializationPrompt(studentName, studentSchool, studentGrade, studentClasses):
@@ -81,6 +87,9 @@ def StartChat(model, tokenizer, studentName, studentSchool, studentGrade, studen
         }
     ]
 
+    # Load curriculum context
+    LoadCurriculum()
+
     # Setup Chat Template
     chat_template = """{% for message in messages %}
         <|{{ message['role'] }}|>
@@ -104,30 +113,33 @@ def StartChat(model, tokenizer, studentName, studentSchool, studentGrade, studen
 
 # Conversation
 def SendMessage(model, tokenizer, messages, new_message):
-    print("New message sent: ", new_message)
-    new_message_dic = {
-        "role": "user",
-        "content": new_message
-    }
+    """Send user message to local LLM, optionally using RAG context."""
+    print("New message sent:", new_message)
 
-    messages.append(new_message_dic)
+    # Get curriculum context
+    context_chunks = retrieve(new_message)
+    if context_chunks:
+        new_message += "\n\n---\nContext:\n" + "\n".join(context_chunks)
 
-    # Setup Chat Template
+    messages.append({"role": "user", "content": new_message})
+
+    # Prepare chat prompt
     chat_template = """{% for message in messages %}
-        <|{{ message['role'] }}|>
-        {{ message['content'] }}
-        {% endfor %}
-        <|assistant|>
-        """
+<|{{ message['role'] }}|>
+{{ message['content'] }}
+{% endfor %}
+<|assistant|>
+"""
     chat_prompt = tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True, chat_template=chat_template)
-
     inputs = tokenizer(chat_prompt, return_tensors="pt").to(model.device)
-    outputs = model.generate(**inputs, max_new_tokens=200, eos_token_id=tokenizer.eos_token_id, pad_token_id=tokenizer.eos_token_id)
 
-    print("Decoded output (raw):")
-    print(tokenizer.decode(outputs[0]))
+    outputs = model.generate(
+        **inputs,
+        max_new_tokens=200,
+        eos_token_id=tokenizer.eos_token_id,
+        pad_token_id=tokenizer.eos_token_id
+    )
 
     reply = tokenizer.decode(outputs[0], skip_special_tokens=True)
     messages.append({"role": "assistant", "content": reply.split("<|assistant|>")[-1].strip()})
-
     return reply, messages
