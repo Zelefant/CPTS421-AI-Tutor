@@ -51,6 +51,7 @@ Please review the following code files, which were actively developed during thi
 
 - [languagemodel.py]
 - [manage.py]
+- [views.py]
 - [globals.py]
 
 ## Retrospective Summary
