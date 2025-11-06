@@ -2,6 +2,8 @@
 
 ## YouTube link of Sprint 2 Video (Make this video unlisted)
 
+https://youtu.be/Ytxe1ya9yGM?si=ashID6NZFtBwk3x9
+
 ## What's New (User Facing)
 
 - Gemini API LLM has been swapped out with LLaMA 3.2 1B Instruct.
