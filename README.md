@@ -13,30 +13,39 @@ This AI tutoring system enables school districts to offer personalized learning 
 ### Prerequisites
 
 - Python 3.13 or newer
-- Pip packages: google-generativeai, python-dotenv, django, (optional for RAG integration: faiss-cpu, sentence-transformers)
-- Gemini API key (Insert into .env file with the format: GEMINI_API_KEY="your api key")
+- Pip packages: python-dotenv, django, faiss-cpu, sentence-transformers, transformers (version <1.0), accelerate, tokenizers, safetensors, numpy
 
 ### Add-ons
 
-- Google Gemini API - Serves as the large-language model for the prototype system.
+- LLaMA 3.2 1B Instruct - Default language model used by the system. It is closed source, meaning you will need to be logged into Huggingface and have access to the model. (You can swap the model with instructions below.)
 
 ### Installation Steps
 
 1. Clone the repository:
-  - git clone https://github.com/Zelefant/CPTS421-AI-Tutor.git
-  - cd CPTS421-AI-Tutor
+
+- git clone https://github.com/Zelefant/CPTS421-AI-Tutor.git
+- cd CPTS421-AI-Tutor
+
 2. Create and activate a virtual environment:
-  - python -m venv .venv # Windows
-  - .venv\Scripts\activate # macOS/Linux
-  - source .venv/bin/activate
+
+- python -m venv .venv # Windows
+- .venv\Scripts\activate # macOS/Linux
+- source .venv/bin/activate
+
 3. Upgrade pip and install dependencies:
-  - pip install --upgrade pip
-  - pip install google-generativeai python-dotenv django
-  - pip install faiss-cpu sentence-transformers # (optional for RAG integration)
-4. Create a .env file in the project root and add your Gemini API key:
-  - GEMINI_API_KEY="your-api-key-here"
-5. cd into the "llmsite" folder
-6. Run the command: python manage.py runserver
+
+- pip install --upgrade pip
+- pip install python-dotenv django
+- pip install transformers<1.0 accelerate tokenizers safetensors
+- pip install numpy
+- pip install faiss-cpu sentence-transformers
+
+4. Create a .env file in the "code" folder and add your language model (It will default to LLaMA 3.2 1B Instruct, which is closed source, you need access to it)
+
+- LANGUAGE_MODEL_ID="LanguageModel ID from Huggingface"
+
+5. If using LLaMA, make sure you are logged into Huggingface by running hf.exe (Can be found in your Python plugins folder)
+6. Run the command: python code/llmsite/manage.py runserver
 7. Go to http://127.0.0.1:8000 or whatever the IP address and port the command gives you.
 
 ## Functionality
@@ -45,19 +54,15 @@ This AI tutoring system enables school districts to offer personalized learning 
 2. The AI tutor will introduce itself and display the initial instructions.
 3. Enter a message describing the topic or problem you want help with.
 4. The tutor will respond with one step at a time. After completing the step, ask it to continue or ask for clarification.
-5. Request quizzes or practice exams by asking the tutor; it will provide them in JSON format.
-6. Submit quiz answers in CSV format; the tutor will return a graded JSON answer key.
+5. Request quizzes or practice exams by asking the tutor; it will provide them in GUI format.
+6. Submit quiz answers in CSV format; the tutor will return a graded answer key.
 7. The system maintains safeguards to prevent inappropriate content and adheres to the structured step-by-step approach.
-
 
 ## Known Problems
 
-- Tutor requires internet access to use the Gemini API.
-- Using a local LLM is not yet implemented (#5).
 - Role-based access and teacher monitoring are not yet available (#3, #12).
-- quizzes may require manual correction for complex short answers.
+- Quizzes do not display correctly when RAG is in use.
 - All issues are tracked in GitHub, see the Incomplete Issues/User Stories section in the sprint report.
-
 
 ## Contributing
 
@@ -75,6 +80,3 @@ This AI tutoring system enables school districts to offer personalized learning 
 ## License
 
 [See License](LICENSE.txt)
-
-
-
