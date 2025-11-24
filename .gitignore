@@ -1,5 +1,17 @@
-__pycache__/
-*.pyc
-*.sqlite3
-.venv/
 .env
+# === Python / Django ===
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.env
+db.sqlite3
+
+# Byte-compiled / cached files
+*.pyc
+*$py.class
+# === IDEs and editors ===
+.vscode/
+.idea/  
