@@ -1,3 +1,4 @@
+<!-- chat.html -->
 {% extends "base.html" %}
 {% block title %}Chat · AI Tutor{% endblock %}
 {% block content %}
@@ -10,9 +11,8 @@
       <button id="newSession" class="text-sm text-brand-600 hover:underline">New</button>
     </div>
     <ul id="sessionList" class="space-y-2 text-sm">
-      <li class="p-2 rounded-lg bg-gray-100">Algebra practice</li>
-      <li class="p-2 rounded-lg hover:bg-gray-50">Essay planning</li>
-      <li class="p-2 rounded-lg hover:bg-gray-50">Kinematics review</li>
+<!-- Real sessions will be inserted here by JS -->
+
     </ul>
   </aside>
 
@@ -114,8 +114,12 @@
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "same-origin",
-        body: JSON.stringify({ message: text })
-      });
+        body: JSON.stringify({ 
+          message: text,
+          session_id: currentSessionId
+        })
+    });
+
       if (!res.ok) throw new Error(await res.text());
       const data = await res.json();
 
@@ -356,60 +360,181 @@
     chatLog.scrollTop = chatLog.scrollHeight;
   }
 
-  // Initialization flow: create a session and initialize the model
+// New Session button handler
   document.getElementById("newSession").addEventListener("click", async () => {
-    // Prompt for optional session title and student info
-    const title = prompt("Session title (optional):") || "New session";
-    const name = prompt("Student name:") || "";
-    const school = prompt("School:") || "";
-    const grade = prompt("Grade:") || "";
-    const classes = prompt("Classes (comma separated):") || "";
-
     try {
-      // Create the session on the backend
-      const res = await fetch("{% url 'api_new_session' %}", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "same-origin",
-        body: JSON.stringify({ title })
-      });
-      if (!res.ok) throw new Error(await res.text());
-      const data = await res.json();
-      currentSessionId = data.id;
-
-      // Prepend session to sidebar list
-      const li = document.createElement('li');
-      li.className = 'p-2 rounded-lg hover:bg-gray-50';
-      li.dataset.sessionId = data.id;
-      li.innerText = data.title + ' — ' + new Date(data.createdAt).toLocaleString();
-      const sessionList = document.getElementById('sessionList');
-      sessionList.prepend(li);
-
-      // Clear the chat log and show a brief welcome message
-      chatLog.innerHTML = '';
-      appendMessage('model', `Session created: ${data.title}`);
-
-      // Optionally seed the model by calling api_init with the same student info and the session id
-      try {
-        const initRes = await fetch("{% url 'api_init' %}", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "same-origin",
-          body: JSON.stringify({ studentName: name, studentSchool: school, studentGrade: grade, studentClasses: classes, session_id: currentSessionId })
+        // Create a new session with default title
+        const res = await fetch("{% url 'api_new_session' %}", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "same-origin",
+            body: JSON.stringify({})  // no title needed, backend will default
         });
-        if (initRes.ok) {
-          const initData = await initRes.json();
-          // replace the temporary welcome with the model's initialization text
-          chatLog.innerHTML = '';
-          appendMessage('model', initData.model_text || '(no text)');
-        }
-      } catch (e) {
-        // ignore init failures but keep session
-        console.debug('init seed failed', e);
-      }
+        if (!res.ok) throw new Error(await res.text());
+        const data = await res.json();
+        currentSessionId = data.id;
+
+        // Add session to sidebar
+        const li = document.createElement('li');
+        li.className = 'p-2 rounded-lg hover:bg-gray-50 cursor-pointer';
+        li.dataset.sessionId = data.id;
+        li.innerText = data.title + ' — ' + new Date(data.createdAt).toLocaleString();
+        li.addEventListener("click", () => loadSessionMessages(data.id));
+
+        const sessionList = document.getElementById('sessionList');
+        sessionList.prepend(li);
+
+        // Clear chat log and show simple welcome
+        chatLog.innerHTML = '';
+        appendMessage('model', `Session created: ${data.title}`);
+
+        // Don't call api_init yet — wait until user sends first message
     } catch (err) {
-      alert('Create session failed: ' + err.message);
+        alert('Create session failed: ' + err.message);
     }
-  });
+});
+
+
+
+// On page load, load existing sessions
+document.addEventListener("DOMContentLoaded", async () => {
+    await loadSessions();
+    const sessionList = document.getElementById("sessionList");
+    if (sessionList.children.length === 0) {
+        document.getElementById("newSession").click(); // auto-create session
+    } else {
+        const firstSessionId = sessionList.children[0].dataset.sessionId;
+        currentSessionId = firstSessionId;
+        loadSessionMessages(firstSessionId);
+    }
+});
+
+// Delete session button handler
+document.addEventListener("click", async (e) => {
+    if (e.target.classList.contains("delete-btn")) {
+        const id = e.target.dataset.id;
+
+        if (!confirm("Delete this chat? This cannot be undone.")) return;
+
+        const res = await fetch(`/api/session/${id}/delete/`, {
+            method: "DELETE",
+            credentials: "same-origin"
+        });
+
+        if (res.ok) {
+            // remove from sidebar
+            e.target.closest("li").remove();
+            chatLog.innerHTML = ""; // clear chat panel
+        }
+    }
+});
+
+// Rename session button handler
+document.addEventListener("click", async (e) => {
+    if (e.target.classList.contains("rename-btn")) {
+        const id = e.target.dataset.id;
+
+        const newName = prompt("Rename session:");
+        if (!newName) return;
+
+        const res = await fetch(`/api/session/${id}/rename/`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "same-origin",
+            body: JSON.stringify({ title: newName })
+        });
+
+        if (res.ok) {
+            e.target.closest("li").querySelector(".session-title").textContent = newName;
+        }
+    }
+});
+
+
+async function loadSessions() {
+  const sessionList = document.getElementById("sessionList");
+  sessionList.innerHTML = "";
+
+  try {
+    const res = await fetch("{% url 'api_list_sessions' %}", {
+      method: "GET",
+      credentials: "same-origin"
+    });
+
+    if (!res.ok) throw new Error(await res.text());
+    const data = await res.json();
+
+    data.sessions.forEach(session => {
+      const li = document.createElement("li");
+      li.className = "session-item flex justify-between items-center p-2 rounded-lg hover:bg-gray-50 cursor-pointer";
+      li.dataset.sessionId = session.id;
+
+      li.innerHTML = `
+        <span class="session-title">${session.title}</span>
+        <div class="flex gap-2">
+            <button class="rename-btn text-blue-500" data-id="${session.id}">✏️</button>
+            <button class="delete-btn text-red-500" data-id="${session.id}">🗑️</button>
+        </div>
+      `;
+
+      li.addEventListener("click", (e) => {
+        // prevent button clicks from also triggering session load
+        if (e.target.classList.contains("rename-btn")) return;
+        if (e.target.classList.contains("delete-btn")) return;
+
+        loadSessionMessages(session.id);
+      });
+
+      sessionList.appendChild(li);
+    });
+  } catch (err) {
+    console.error("Failed to load sessions:", err.message);
+  }
+}
+
+
+// loadSessionMessages fetches and displays messages for a given session
+async function loadSessionMessages(sessionId) {
+  currentSessionId = sessionId;
+  chatLog.innerHTML = "";
+
+  try {
+    // Initialize the LLM chat for this session
+    const initRes = await fetch("{% url 'api_init' %}", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
+      body: JSON.stringify({ session_id: sessionId })
+    });
+
+    if (!initRes.ok) {
+      const errText = await initRes.text();
+      appendMessage("model", "Error initializing chat: " + errText);
+      return;
+    }
+
+    const initData = await initRes.json();
+    appendMessage("model", initData.model_text || "(no text)");
+
+    // Load existing messages from DB
+    const res = await fetch(`/api/session/${sessionId}/messages/`, {
+      method: "GET",
+      credentials: "same-origin"
+    });
+
+    if (!res.ok) throw new Error(await res.text());
+    const data = await res.json();
+
+    data.messages.forEach(msg => {
+      appendMessage(msg.role, msg.text);
+    });
+
+  } catch (err) {
+    appendMessage("model", "Error loading chat: " + err.message);
+  }
+}
+
+
+
 </script>
 {% endblock %}
