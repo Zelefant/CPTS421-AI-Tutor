@@ -45,7 +45,8 @@
               "ToolTip": "D:\\Projects\\cpts421\\aitutor\\model_selector_app\\ModelSelector\\ModelSelector\\LoadingForm.cs [Design]",
               "RelativeToolTip": "ModelSelector\\LoadingForm.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-20T23:22:46.128Z"
+              "WhenOpened": "2025-11-20T23:22:46.128Z",
+              "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
@@ -68,9 +69,10 @@
               "RelativeDocumentMoniker": "ModelSelector\\Backend\\Model.cs",
               "ToolTip": "D:\\Projects\\cpts421\\aitutor\\model_selector_app\\ModelSelector\\ModelSelector\\Backend\\Model.cs",
               "RelativeToolTip": "ModelSelector\\Backend\\Model.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAACYAAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAIBJwCYAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-20T21:05:42.711Z"
+              "WhenOpened": "2025-11-20T21:05:42.711Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -82,7 +84,8 @@
               "RelativeToolTip": "ModelSelector\\Backend\\ScrapeHuggingfaceData.cs",
               "ViewState": "AgIAACgAAAAAAAAAAAAmwFcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-19T23:49:07.489Z"
+              "WhenOpened": "2025-11-19T23:49:07.489Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -106,7 +109,8 @@
               "ToolTip": "D:\\Projects\\cpts421\\aitutor\\model_selector_app\\ModelSelector\\ModelSelector\\Form1.cs [Design]",
               "RelativeToolTip": "ModelSelector\\Form1.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-14T21:08:03.132Z"
+              "WhenOpened": "2025-11-14T21:08:03.132Z",
+              "EditorCaption": " [Design]"
             }
           ]
         }
